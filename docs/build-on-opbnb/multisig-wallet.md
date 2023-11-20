@@ -24,4 +24,4 @@ Testnet: [https://safe-transaction-opbnb-testnet.bnbchain.org/](https://safe-tra
 
 Mainnet: [https://safe-transaction-opbnb-mainnet.bnbchain.org/](https://safe-transaction-opbnb-mainnet.bnbchain.org/)
 
-Read the [api-kit Doc](https://docs.safe.global/safe-core-aa-sdk/api-kit/reference) for details
+Read the [api-kit Doc](https://docs.safe.global/safe-core-aa-sdk/api-kit/reference) for details.
