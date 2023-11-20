@@ -266,3 +266,31 @@ Refer to <https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-admin> for
 ```
 $ curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"admin_peers","params":[],"id":1}' http://localhost:8545 | jq .
 ```
+
+### The local node's chain has forked from the canonical chain
+
+If your local node is already running and tracking blocks, the following situations may indicate that your local node's chain has forked from the canonical chain:
+1. The block hash at the same height obtained through the `eth_getBlockByNumber` method does not match the data returned by the public node.
+2. Your local chain consistently lags behind a fixed number of blocks and cannot catch up with the latest block height.
+
+In this case, we recommend that you check the code version of the running node through the following steps:
+```bash
+$ op-node -v
+op-node version v0.0.0-515ebd51-1698742099
+
+$ op-geth version
+Geth
+Version: 0.1.0-unstable
+Git Commit: f8871fc80dbf2aa0178b504e76c20c21b890c6d5
+Git Commit Date: 20231026
+Upstream Version: 1.11.5-stable
+Architecture: arm64
+Go Version: go1.20.2
+Operating System: darwin
+GOPATH=
+```
+Please make sure to use the latest code version. If the code version is incorrect, please completely clear the node data and run the new node again according to this guide. 
+
+You also need to check if the `genesis.json` and `rollup.json` files are up to date. 
+
+In the latest code, we hardcoded the configuration of rollup.json. Instead of using `--rollup.config=./rollup.json`, you just need to use `--network=opBNBTestnet` (for the mainnet network it is opBNBMainnet). This change ensures that the contents of rollup.json will not be incorrect.
