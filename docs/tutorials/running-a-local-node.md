@@ -303,8 +303,10 @@ then you need to consider upgrading your machine specifications, increasing CPU,
 This is because the current OP Stack only supports the archive mode of Geth, and the disk space usage increases over time. The Leveldb that Geth relies on requires more machine resources to complete the compact process.
 We are working hard to support full mode Geth, and further support PBSS and Pebble to completely solve this problem.
 
-If you don't want to upgrade your machine's specifications, and you are an advanced player, 
-you can also try to perform offline pruning on your nodes (Note that this is a dangerous operation and after pruning, the state data of the blocks before the target block height will no longer be available).
+If you don't want to upgrade your machine's specifications, You can choose to download the pruned snapshot from the [opbnb-snapshot](https://github.com/bnb-chain/opbnb-snapshot) repository, and use it to start a new node. 
+The new node will not have this issue, but it will lose all state data before a certain block height.
+
+If you are an advanced player, you can also try to perform offline pruning on your nodes (Note that this is a dangerous operation and after pruning, the state data of the blocks before the target block height will no longer be available).
 You can follow these steps:
 1. Shut down your machine and make sure that op-geth prints the following log: "Blockchain stopped".
 2. Search for the keyword "Chain head was updated" in the logs to confirm the block height of the last inserted block before the node was shut down. For the sake of explanation, let's assume the block height is 16667495.
