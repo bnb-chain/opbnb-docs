@@ -18,6 +18,7 @@ Building with Rollup as a Service (RaaS) on the BNB Chain involves leveraging sp
 
 | Service Provider | Developer tools and tech stack                               | How to Start               |
 | ---------------- | ------------------------------------------------------------ | -------------------------- |
-| NodeReal         | E2E professional service with infrastructure support, including, indexing service, multi-sig wallet service, explorer, and other enterprise services. | https://nodereal.io/semita |
-| Altlayer         | Versatile rollup-up stack support and no-code setup dashboard | https://altlayer.io/       |
-| Movement Labs    | Move based L2 on BSC support                                 | https://movementlabs.xyz/  |
+| Altlayer         | AltLayer offers versatile support for various rollup technologies and a no-code setup dashboard, making it easy to deploy and manage custom rollups for enhanced blockchain scaling. | https://altlayer.io/       |
+| Movement Labs    | Movement Labs offers a Move-based Layer 2 solution on Binance Smart Chain, prioritizing security and scalability for a better developer and user experience. | https://movementlabs.xyz/  |
+| NodeReal         | NodeReal provides comprehensive end-to-end blockchain infrastructure solutions for enterprises, including indexing, multi-sig wallets, explorers, and additional services. | https://nodereal.io/semita |
+|                  |                                                              |                            |
