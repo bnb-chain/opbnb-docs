@@ -12,7 +12,7 @@ The opBNB network is the Layer 2 scaling solution for the BNB Smart Chain powere
 
 ![image-20230621190244472](../../opbnb-docs/static/img/opBNB-intro.png)
 
-Besides the [differentiators of bedrock](https://community.optimism.io/docs/developers/bedrock/differences/), opBNB is the solution that we aim to provide the best optimistic solution on the BSC.
+Besides the [differentiators of bedrock](https://docs.optimism.io/stack/differences), opBNB is the solution that we aim to provide the best optimistic solution on the BSC.
 
 - Capacity can reach to > 100m gas per second, which is much higher than other layer 2 solutions on the Ethereum.
 - Gas fee of transfer can reach as low as $0.001 on average.
