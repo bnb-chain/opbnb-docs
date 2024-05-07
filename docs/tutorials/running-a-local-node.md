@@ -39,7 +39,7 @@ If you use different infrastructure providers, please consult the docker-compose
 ### Build op-node and op-geth
 
 dependencies
-- golang 1.20+
+- golang 1.21+
 - make
 - git
 - gcc
@@ -72,20 +72,9 @@ cp ./build/bin/geth $OPBNB_WORKSPACE/op-geth-data/op-geth
 ### Data Preparation
 
 ```bash
-cd $OPBNB_WORKSPACE
-# for testnet
-cp $OPBNB_WORKSPACE/opbnb/assets/testnet/genesis.json $OPBNB_WORKSPACE/op-geth-data
-# for mainnet
-# cp $OPBNB_WORKSPACE/opbnb/assets/mainnet/genesis.json $OPBNB_WORKSPACE/op-geth-data
-
 openssl rand -hex 32 > jwt.txt
 cp jwt.txt $OPBNB_WORKSPACE/op-geth-data
 cp jwt.txt $OPBNB_WORKSPACE/op-node-data
-
-# init op-geth genesis
-cd $OPBNB_WORKSPACE/op-geth-data
-mkdir datadir
-./op-geth --datadir ./datadir init genesis.json
 ```
 
 ### Start components
@@ -97,52 +86,17 @@ op-geth
 cd $OPBNB_WORKSPACE/op-geth-data
 
 # for testnet
-export CHAIN_ID=5611
 export L2_RPC=https://opbnb-testnet-rpc.bnbchain.org
-export P2P_BOOTNODES="enr:-KO4QKFOBDW--pF4pFwv3Al_jiLOITj_Y5mr1Ajyy2yxHpFtNcBfkZEkvWUxAKXQjWALZEFxYHooU88JClyzA00e8YeGAYtBOOZig2V0aMfGhE0ZYGqAgmlkgnY0gmlwhDREiqaJc2VjcDI1NmsxoQM8pC_6wwTr5N2Q-yXQ1KGKsgz9i9EPLk8Ata65pUyYG4RzbmFwwIN0Y3CCdl-DdWRwgnZf,enr:-KO4QFJc0KR09ye818GT2kyN9y6BAGjhz77sYimxn85jJf2hOrNqg4X0b0EsS-_ssdkzVpavqh6oMX7W5Y81xMRuEayGAYtBSiK9g2V0aMfGhE0ZYGqAgmlkgnY0gmlwhANzx96Jc2VjcDI1NmsxoQPwA1XHfWGd4umIt7j3Fc7hKq_35izIWT_9yiN_tX8lR4RzbmFwwIN0Y3CCdl-DdWRwgnZf"
 
 # for mainnet
-# export CHAIN_ID=204
 # export L2_RPC=https://opbnb-mainnet-rpc.bnbchain.org
-# export P2P_BOOTNODES="enr:-KO4QHs5qh_kPFcjMgqkuN9dbxXT4C5Cjad4SAheaUxveCbJQ3XdeMMDHeHilHyqisyYQAByfdhzyKAdUp2SvyzWeBqGAYvRDf80g2V0aMfGhHFtSjqAgmlkgnY0gmlwhDaykUmJc2VjcDI1NmsxoQJUevTL3hJwj21IT2GC6VaNqVQEsJFPtNtO-ld5QTNCfIRzbmFwwIN0Y3CCdl-DdWRwgnZf,enr:-KO4QKIByq-YMjs6IL2YCNZEmlo3dKWNOy4B6sdqE3gjOrXeKdNbwZZGK_JzT1epqCFs3mujjg2vO1lrZLzLy4Rl7PyGAYvRA8bEg2V0aMfGhHFtSjqAgmlkgnY0gmlwhDbjSM6Jc2VjcDI1NmsxoQNQhJ5pqCPnTbK92gEc2F98y-u1OgZVAI1Msx-UiHezY4RzbmFwwIN0Y3CCdl-DdWRwgnZf"
 
-
+# for testnet using --opBNBTestnet, for mainnet using --opBNBMainnet
 ./op-geth \
+  --opBNBTestnet \
   --datadir="./datadir" \
-  --verbosity=3 \
-  --http \
-  --http.corsdomain="*" \
-  --http.vhosts="*" \
-  --http.addr=0.0.0.0 \
-  --http.port=8545 \
-  --http.api=net,eth,engine \
-  --ws \
-  --ws.addr=0.0.0.0 \
-  --ws.port=8545 \
-  --ws.origins="*" \
-  --ws.api=eth,engine \
-  --syncmode=full \
-  --maxpeers=10 \
-  --networkid=$CHAIN_ID \
-  --miner.gaslimit=150000000 \
-  --triesInMemory=32 \
-  --txpool.globalslots=10000 \
-  --txpool.globalqueue=5000 \
-  --txpool.accountqueue=200 \
-  --txpool.accountslots=200 \
-  --cache 32000 \
-  --cache.preimages \
-  --allow-insecure-unlock \
-  --authrpc.addr="0.0.0.0" \
-  --authrpc.port="8551" \
-  --authrpc.vhosts="*" \
   --authrpc.jwtsecret=./jwt.txt \
-  --gcmode=archive \
-  --metrics \
-  --metrics.port 6060 \
-  --metrics.addr 0.0.0.0 \
-  --rollup.sequencerhttp=$L2_RPC \
-  --bootnodes=$P2P_BOOTNODES
+  --rollup.sequencerhttp=$L2_RPC 
 ```
 
 op-geth runs with [PBSS(Path-Base Scheme Storage) and PebbleDB](./pbss-pebble.md) by adding the flags `--state.scheme path` and `--db.engine pebble`.
@@ -160,46 +114,21 @@ set -ex
 cd op-node-data
 
 export L2_RPC=http://localhost:8551
-# replace the p2p private key with yours
-# you can generate a new one with `openssl rand -hex 32`
-export P2P_PRIV_KEY=ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
 # for testnet
 # it's better to replace the L1_RPC with your own BSC Testnet RPC Endpoint for stability
 export L1_RPC=https://bsc-testnet.bnbchain.org
-export P2P_BOOTNODES="enr:-J24QGQBeMsXOaCCaLWtNFSfb2Gv50DjGOKToH2HUTAIn9yXImowlRoMDNuPNhSBZNQGCCE8eAl5O3dsONuuQp5Qix2GAYjB7KHSgmlkgnY0gmlwhDREiqaHb3BzdGFja4PrKwCJc2VjcDI1NmsxoQL4I9wpEVDcUb8bLWu6V8iPoN5w8E8q-GrS5WUCygYUQ4N0Y3CCIyuDdWRwgiMr,enr:-J24QJKXHEkIhy0tmIk2EscMZ2aRrivNsZf_YhgIU51g4ZKHWY0BxW6VedRJ1jxmneW9v7JjldPOPpLkaNSo6cXGFxqGAYpK96oCgmlkgnY0gmlwhANzx96Hb3BzdGFja4PrKwCJc2VjcDI1NmsxoQMOCzUFffz04eyDrmkbaSCrMEvLvn5O4RZaZ5k1GV4wa4N0Y3CCIyuDdWRwgiMr"
 
 # for mainnet
 # export L1_RPC=https://bsc-dataseed.bnbchain.org
-# export P2P_BOOTNODES="enr:-J24QA9sgVxbZ0KoJ7-1gx_szfc7Oexzz7xL2iHS7VMHGj2QQaLc_IQZmFthywENgJWXbApj7tw7BiouKDOZD4noWEWGAYppffmvgmlkgnY0gmlwhDbjSM6Hb3BzdGFja4PMAQCJc2VjcDI1NmsxoQKetGQX7sXd4u8hZr6uayTZgHRDvGm36YaryqZkgnidS4N0Y3CCIyuDdWRwgiMs,enr:-J24QPSZMaGw3NhO6Ll25cawknKcOFLPjUnpy72HCkwqaHBKaaR9ylr-ejx20INZ69BLLj334aEqjNHKJeWhiAdVcn-GAYv28FmZgmlkgnY0gmlwhDTDWQOHb3BzdGFja4PMAQCJc2VjcDI1NmsxoQJ-_5GZKjs7jaB4TILdgC8EwnwyL3Qip89wmjnyjvDDwoN0Y3CCIyuDdWRwgiMs"
 
+# for testnet using --network=opBNBTestnet, for mainnet using --network=opBNBMainnet
 ./op-node \
-  --l1.trustrpc \
-  --sequencer.l1-confs=15 \
-  --verifier.l1-confs=15 \
-  --l1.http-poll-interval 3s \
-  --l1.epoch-poll-interval 45s \
-  --l1.rpc-max-batch-size 20 \
-  --rollup.config=./rollup.json \
-  --rpc.addr=0.0.0.0 \
-  --rpc.port=8546 \
-  --p2p.sync.req-resp \
-  --p2p.listen.ip=0.0.0.0 \
-  --p2p.listen.tcp=9003 \
-  --p2p.listen.udp=9003 \
+  --network=opBNBTestnet \
   --snapshotlog.file=./snapshot.log \
-  --p2p.bootnodes=$P2P_BOOTNODES \
-  --metrics.enabled \
-  --metrics.addr=0.0.0.0 \
-  --metrics.port=7300 \
-  --pprof.enabled \
-  --rpc.enable-admin \
   --l1=${L1_RPC} \
   --l2=${L2_RPC} \
-  --l2.jwt-secret=./jwt.txt \
-  --l2.engine-sync=true \
-  --l2.skip-sync-start-check=true \  
-  --log.level=debug
+  --l2.jwt-secret=./jwt.txt
 ```
 
 ## Run with Snapshots
