@@ -9,7 +9,7 @@ Install and start the entire opbnb system locally, including L1 (BNB Smart Chain
 
 ## How to do it
 
-1. Make sure the following software is installed: golang, nodejs 16+, yarn, make, pnpm, python3, docker, foundry, poetry, jq
+1. Make sure the following software is installed: golang, nodejs 16+, make, pnpm, python3, docker, foundry, poetry, jq
    Tips:
 
    Install Foundry by following [the instructions located here](https://getfoundry.sh/).  
