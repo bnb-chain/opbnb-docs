@@ -10,6 +10,8 @@ For opBNB mainnet, `https://open-platform.nodereal.io/{{yourAPIkey}}/op-bnb-main
 
 For opBNB testnet, `https://open-platform.nodereal.io/{{yourAPIkey}}/op-bnb-testnet/contract/?action=getsourcecode&address={{contract address}}`
 
+*opBNB RPC for API connection of blockchain nodes for Web3 development* [GetBlock](https://getblock.io/nodes/opbnb/).
+
 ### Why does token info (like name, symbol) is not displayed on opBNBscan despite having contract verified?
 
 If the deployed contract is a proxy contract, then the info. will not be displayed as opBNBscan uses enhanced API to fetch the token details like name, symbol etc. In this case, enhanced API needs to call the implementation contract to fetch the token details.
@@ -17,7 +19,7 @@ Currently, this feature is under development where enhanced API will make call t
 
 ### What are the third-party provider services where we can purchase private RPC access?
 
-You can purchase private RPC access from [Nodereal](https://nodereal.io/meganode).
+You can purchase private RPC access from [Nodereal](https://nodereal.io/meganode) or [GetBlock](https://getblock.io/nodes/opbnb/).
 
 ### Are there any grants or financial support for projects on opBNB?
 
